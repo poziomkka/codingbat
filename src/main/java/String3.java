@@ -1,5 +1,21 @@
 public class String3 {
 
+    // Given a string, count the number of words ending in 'y' or 'z' -- so the 'y' in "heavy" and the 'z' in "fez"
+    // count, but not the 'y' in "yellow" (not case sensitive). We'll say that a y or z is at the end of a word if there
+    // is not an alphabetic letter immediately following it. (Note: Character.isLetter(char) tests if a char is an
+    // alphabetic letter.)
+    public int countYZ(String str) {
+        int count = 0;
+
+        for (int i = str.length() - 1; i > 0; i--) {
+            if (i == str.length() - 1 && (str.toLowerCase().charAt(str.length() - 1) == 'y' ||
+                    str.toLowerCase().charAt(str.length() - 1) == 'z')) count++;
+            if (!Character.isLetter(str.charAt(i)) && (str.toLowerCase().charAt(i - 1) == 'y' ||
+                    str.toLowerCase().charAt(i - 1) == 'z')) count ++;
+        }
+        return count;
+    }
+
     // Given two strings, "base" and "remove", return a version of the base string where all instances of the remove
     // string have been removed (not case sensitive). You may assume that the remove string is length 1 or more.
     // Remove only non-overlapping instances, so with "xxx" removing "xx" leaves "x".
@@ -12,7 +28,7 @@ public class String3 {
             else i+= remove.length() - 1;
             help = str.length() - remove.length() - i;
         }
-        return sb.append(str.substring(str.length() - remove.length() + 1 - help, str.length())).toString();
+        return sb.append(str.substring(str.length() - remove.length() + 1 - help)).toString();
     }
 
     // Given a string, return true if the number of appearances of "is" anywhere in the string is equal to the number
