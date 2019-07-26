@@ -2,6 +2,70 @@ import java.util.List;
 
 public class String2 {
 
+    // Given a string and an int n, return a string made of the first n characters of the string, followed by the first
+    // n-1 characters of the string, and so on. You may assume that n is between 0 and the length of the string,
+    // inclusive (i.e. n >= 0 and n <= str.length()).
+    public static String repeatFront(String str, int n) {
+        String result = "";
+        for (int i = n; i >=0; i--) {
+            result += str.substring(0, i);
+        }
+        return result;
+    }
+
+    // Given two strings, word and a separator sep, return a big string made of count occurrences of the word,
+    // separated by the separator string.
+    public static String repeatSeparator(String word, String sep, int count) {
+        String result = "";
+        if (count > 0) result = word;
+        for (int i = 1; i < count; i++) {
+            result = result + sep + word;
+        }
+        return result;
+    }
+
+    // Given a string, consider the prefix string made of the first N chars of the string. Does that prefix string
+    // appear somewhere else in the string? Assume that the string is not empty and that N is in the range
+    // 1..str.length().
+    public static boolean prefixAgain(String str, int n) {
+        String prefix = str.substring(0, n);
+        for (int i = n; i < str.length() - n + 1; i++) {
+            if (str.substring(i, i + n).equals(prefix)) return true;
+        }
+        return false;
+    }
+
+
+    // Given a string, does "xyz" appear in the middle of the string? To define middle, we'll say that the number
+    // of chars to the left and right of the "xyz" must differ by at most one. This problem is harder than it looks.
+    public static boolean xyzMiddle(String str) {
+        if (str.length() < 3) return false;
+        int n = str.length();
+        if (n%2 == 1) {
+            if (str.substring(n/2 - 1, n/2 + 2).equals("xyz")) return true;
+        } else if (str.substring(n/2 - 1, n/2 + 2).equals("xyz")
+                || str.substring(n/2 - 2, n/2 + 1).equals("xyz")) return true;
+        return false;
+    }
+
+    // A sandwich is two pieces of bread with something in between. Return the string that is between the first and last
+    // appearance of "bread" in the given string, or return the empty string "" if there are not two pieces of bread.
+    public static String getSandwich(String str) {
+        if (str.length() < 10) return "";
+        int breadNr = 0;
+        int b1 = -1;
+        int b2 = -1;
+        for (int i = 0; i < str.length() - 4; i ++) {
+            if (str.substring(i, i + 5).equals("bread")) {
+                breadNr++;
+                if (b1 == -1) b1 = i;
+                else b2 = i;
+            }
+        }
+        if (b2 == -1) return "";
+        return str.substring(b1 + 5, b2);
+    }
+
     // Returns true if for every '*' (star) in the string, if there are chars both immediately before and after the
     // star, they are the same.
     public static boolean sameStarChar(String str) {
