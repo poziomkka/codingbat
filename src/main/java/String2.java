@@ -1,6 +1,96 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class String2 {
+
+    // Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You
+    // may assume that n is between 0 and the length of the string, inclusive.
+    public String repeatEnd(String str, int n) {
+        String a = "";
+        for (int i = 0; i < n; i++) {
+            a += str.substring(str.length() - n, str.length());
+        }
+        return a;
+    }
+
+    // Given two strings, a and b, create a bigger string made of the first char of a, the first char of b, the second
+    // char of a, the second char of b, and so on. Any leftover chars go at the end of the result.
+    public String mixString(String a, String b) {
+        String longer = "";
+        String shorter = "";
+        String mix = "";
+        if (a.length() > b.length()) {
+            longer = a;
+            shorter = b;
+        } else {
+            longer = b;
+            shorter = a;
+        }
+        for (int i = 0; i < shorter.length(); i++) {
+            mix += a.substring(i, i + 1) + b.substring(i, i + 1);
+        }
+        mix += longer.substring(shorter.length(), longer.length());
+        return mix;
+    }
+
+    // We'll say that a String is xy-balanced if for all the 'x' chars in the string, there exists a 'y' char somewhere
+    // later in the string. So "xxy" is balanced, but "xyx" is not. One 'y' can balance multiple 'x's. Return true if
+    // the given string is xy-balanced.
+    public boolean xyBalance(String str) {
+        boolean mark = true;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == 'x') mark = false;
+            if (str.charAt(i) == 'y') mark = true;
+        }
+        return mark;
+    }
+
+    // Return true if the given string contains a "bob" string, but where the middle 'o' char can be any char.
+    public boolean bobThere(String str) {
+        for (int i = 0; i < str.length() - 2; i++) {
+            String bob = str.substring(i, i+3);
+            if (bob.substring(0, 1).equals("b") && bob.substring(2, 3).equals("b")) return true;
+        }
+        return false;
+    }
+
+    // Return true if the given string contains an appearance of "xyz" where the xyz is not directly preceeded by
+    // a period (.). So "xxyz" counts but "x.xyz" does not.
+    public boolean xyzThere(String str) {
+        if (str.length() < 3) return false;
+        for (int i = 0; i < str.length() - 2; i++) {
+            if (str.substring(i, i + 3).equals("xyz")) {
+                if (i == 0) return true;
+                else if (str.charAt(i - 1) != '.') return true;
+            }
+        }
+        return false;
+    }
+
+    //Given two strings, return true if either of the strings appears at the very end of the other string, ignoring
+    // upper/lower case differences (in other words, the computation should not be "case sensitive").
+    // Note: str.toLowerCase() returns the lowercase version of a string.
+    public boolean endOther(String a, String b) {
+        String longer = "";
+        String shorter = "";
+        if (a.length() == b.length()) {
+            if (a.equals(b)) return true;
+            else return false;
+        } else {
+            if (a.length() > b.length()) {
+                longer = a.toLowerCase();
+                shorter = b.toLowerCase();
+            } else {
+                longer = b.toLowerCase();
+                shorter = a.toLowerCase();
+            }
+        }
+        String longerEnd = longer.substring(longer.length() - shorter.length(), longer.length());
+        if (longerEnd.equals(shorter)) return true;
+
+        return false;
+    }
+
 
     // Given a string and an int n, return a string made of the first n characters of the string, followed by the first
     // n-1 characters of the string, and so on. You may assume that n is between 0 and the length of the string,
@@ -16,12 +106,13 @@ public class String2 {
     // Given two strings, word and a separator sep, return a big string made of count occurrences of the word,
     // separated by the separator string.
     public static String repeatSeparator(String word, String sep, int count) {
-        String result = "";
-        if (count > 0) result = word;
+        //String result = "";
+        StringBuilder sb = new StringBuilder();
+        if (count > 0) sb.append(word);
         for (int i = 1; i < count; i++) {
-            result = result + sep + word;
+            sb.append(sep + word);
         }
-        return result;
+        return sb.toString();
     }
 
     // Given a string, consider the prefix string made of the first N chars of the string. Does that prefix string
@@ -126,37 +217,37 @@ public class String2 {
     // Given a string and a non-empty word string, return a version of the original String where all chars have been
     // replaced by pluses ("+"), except for appearances of the word string which are preserved unchanged.
     public static String plusOut(String str, String word) {
-        String newStr = "";
+        StringBuilder newStr = new StringBuilder();
         int help = 0;
 
         for (int i = 0; i < str.length() - word.length() + 1; i++) {
             if (str.substring(i, i + word.length()).equals(word)) {
-                newStr += word;
+                newStr.append(word);
                 i += word.length() - 1;
                 help = i;
             } else {
-                newStr += "+";
+                newStr.append("+");
                 help = i;
             }
         }
 
         for (int i = help; i < str.length() - 1; i++) {
-            newStr += "+";
+            newStr.append("+");
         }
-        return newStr;
+        return newStr.toString();
     }
 
     // Given a string and a non-empty word string, return a string made of each char just before and just after every
     // appearance of the word in the string. Ignore cases where there is no char before or after the word, and a char
     // may be included twice if it is between two words.
     public static String wordEnds(String str, String word) {
-        String neW = "";
+        StringBuilder neW = new StringBuilder();
         for (int i = 0; i < str.length() - word.length() + 1; i++) {
             if (str.substring(i, i + word.length()).equals(word)) {
-                if (i > 0) neW += str.charAt(i - 1);
-                if (i < str.length() - word.length()) neW += str.charAt(i + word.length());
+                if (i > 0) neW.append(str.charAt(i - 1));
+                if (i < str.length() - word.length()) neW.append(str.charAt(i + word.length()));
             }
         }
-        return neW;
+        return neW.toString();
     }
 }
