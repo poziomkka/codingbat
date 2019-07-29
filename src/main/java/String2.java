@@ -3,14 +3,57 @@ import java.util.List;
 
 public class String2 {
 
+    // Given a string, return a string where for every char in the original, there are two chars.
+    public String doubleChar(String str) {
+        char[] table = str.toCharArray();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < table.length; i++) {
+            sb.append(table[i]);
+            sb.append(table[i]);
+        }
+        return sb.toString();
+    }
+
+    // Return the number of times that the string "hi" appears anywhere in the given string.
+    public int countHi(String str) {
+        int out = 0;
+        for (int i = 0; i < str.length() - 1; i ++) {
+            if (str.substring(i, i+2).equals("hi")) out ++;
+        }
+        return out;
+    }
+
+    // Return true if the string "cat" and "dog" appear the same number of times in the given string.
+    public boolean catDog(String str) {
+        int catN = 0;
+        int dogN = 0;
+        for (int i = 0; i < str.length() - 2; i++) {
+            if (str.substring(i, i+3).equals("cat")) catN++;
+            if (str.substring(i, i+3).equals("dog")) dogN++;
+        }
+        return catN == dogN;
+    }
+
+    // Return the number of times that the string "code" appears anywhere in the given string, except we'll accept any
+    // letter for the 'd', so "cope" and "cooe" count.
+    public int countCode(String str) {
+        int count = 0;
+        if (str.length() < 4) return 0;
+        for (int i = 0; i < str.length() - 3; i++) {
+            if (str.substring(i, i + 2).equals("co") && str.substring(i + 3, i + 4).equals("e")) count++;
+        }
+        return count;
+    }
+
     // Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You
     // may assume that n is between 0 and the length of the string, inclusive.
     public String repeatEnd(String str, int n) {
-        String a = "";
+        StringBuilder a = new StringBuilder();
         for (int i = 0; i < n; i++) {
-            a += str.substring(str.length() - n, str.length());
+            a.append(str.substring(str.length() - n, str.length()));
         }
-        return a;
+        return a.toString();
     }
 
     // Given two strings, a and b, create a bigger string made of the first char of a, the first char of b, the second
@@ -18,7 +61,7 @@ public class String2 {
     public String mixString(String a, String b) {
         String longer = "";
         String shorter = "";
-        String mix = "";
+        StringBuilder mix = new StringBuilder();
         if (a.length() > b.length()) {
             longer = a;
             shorter = b;
@@ -27,10 +70,10 @@ public class String2 {
             shorter = a;
         }
         for (int i = 0; i < shorter.length(); i++) {
-            mix += a.substring(i, i + 1) + b.substring(i, i + 1);
+            mix.append(a.substring(i, i + 1) + b.substring(i, i + 1));
         }
-        mix += longer.substring(shorter.length(), longer.length());
-        return mix;
+        mix.append(longer.substring(shorter.length(), longer.length()));
+        return mix.toString();
     }
 
     // We'll say that a String is xy-balanced if for all the 'x' chars in the string, there exists a 'y' char somewhere
@@ -71,11 +114,10 @@ public class String2 {
     // upper/lower case differences (in other words, the computation should not be "case sensitive").
     // Note: str.toLowerCase() returns the lowercase version of a string.
     public boolean endOther(String a, String b) {
-        String longer = "";
-        String shorter = "";
+        String longer;
+        String shorter;
         if (a.length() == b.length()) {
-            if (a.equals(b)) return true;
-            else return false;
+            return a.equals(b);
         } else {
             if (a.length() > b.length()) {
                 longer = a.toLowerCase();
@@ -87,7 +129,6 @@ public class String2 {
         }
         String longerEnd = longer.substring(longer.length() - shorter.length(), longer.length());
         if (longerEnd.equals(shorter)) return true;
-
         return false;
     }
 
